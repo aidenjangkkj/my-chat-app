@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# my-chat-app (클라이언트)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Tailwind + Socket.IO 채팅 클라이언트
 
-Currently, two official plugins are available:
+## 📋 주요 기능
+- REST API로 이전 대화 내역 불러오기
+- Socket.IO 실시간 메시지 송수신
+- 내가 보낸 메시지 / 다른 사용자 메시지 구분 UI
+- Tailwind CSS 기반 반응형 레이아웃
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 설치 및 실행
 
-## Expanding the ESLint configuration
+1. 저장소 클론  
+   ```bash
+   git clone <클라이언트 레포 URL>
+   cd my-chat-app
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. 의존성 설치  
+   ```bash
+   npm install
+   ```
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+3. 개발 서버 실행  
+   ```bash
+   npm run dev
+   ```
+   - 포트: `http://localhost:5173`
+
+## ⚙️ 스크립트
+
+| 명령어           | 설명                                                     |
+| ---------------- | -------------------------------------------------------- |
+| `npm run dev`    | Vite 개발 서버 실행                                      |
+| `npm run build`  | 프로덕션 번들 생성 (`dist/`)                            |
+| `npm run preview`| 빌드된 앱을 로컬에서 미리 보기 (Vite preview)            |
+
+## 🔧 환경 변수
+
+`.env` 파일에 아래를 설정하세요:
+```
+VITE_API_BASE=http://localhost:4000
+```
+- REST 호출 및 Socket.IO 연결 URL 기준
+
+## 🗂️ 폴더 구조
+```
+my-chat-app/
+├─ src/
+│  ├─ api/
+│  │  └─ messages.ts       # REST API 유틸
+│  ├─ hooks/
+│  │  └─ useSocket.ts      # Socket.IO 훅
+│  ├─ App.tsx              # 메인 컴포넌트
+│  ├─ index.css            # Tailwind 지시어
+│  └─ main.tsx             # 진입점 (Tailwind 임포트) 
+├─ public/
+├─ package.json
+├─ tsconfig.json
+└─ vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 💡 팁
+- `import type` 으로 API 타입만 분리해 가져오기  
+- 메시지 이력 페이징: REST API에 `?page=` 쿼리 추가  
+- 인증 토큰 사용 시 HTTP 헤더(`Authorization`)와 Socket.IO `auth` 옵션 활용  
+- Tailwind 커스텀 테마는 `tailwind.config.cjs`에 정의
